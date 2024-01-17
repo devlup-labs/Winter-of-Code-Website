@@ -4,7 +4,16 @@ export default {
     './src/**/*.{js,jsx,ts,tsx}',
 ],
   theme: {
-    extend: {},
+    extend: {
+      fontWeight:{
+ '400':400,
+        '100':100,
+    },   
+    },
+fontStyle:{
+        'italic':'italic',
+      'fontstylish':'Verdana, Geneva, Tahoma, sans-serif'
+      },
   },
   plugins: [],
 }
