@@ -1,15 +1,18 @@
-import { useState } from 'react'
-import './App.css'
-
-
-
-function App() {
-  const [num,setNum] = useState<number>(0)
+import Navbar from "./Components/Navbar";
+import { Routes, BrowserRouter, Route } from "react-router-dom";
+import Home from "./Components/Home";
+const App = () => {
   return (
-    <h1 className="text-3xl font-bold underline text-red-600 cursor-pointer" onClick={()=>setNum((val)=>val+1)}>
-      woc {num}
-    </h1>
-  )
-}
-
-export default App
+    <div>
+      <BrowserRouter>
+        <div className="fixed w-screen z-0">
+          <Navbar />
+        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
+export default App;
