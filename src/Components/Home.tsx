@@ -1,45 +1,54 @@
 import { FaGithub } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { IoMdFlash } from "react-icons/io";
-import {BiLogoDiscord} from "react-icons/bi"
-import { MdSupervisorAccount,MdBuild } from "react-icons/md";
+import { BiLogoDiscord } from "react-icons/bi";
+import { MdSupervisorAccount, MdBuild } from "react-icons/md";
 const Home = () => {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <div
-        className="flex flex-col justify-center items-center h-[479px] bg-cover"
-        style={{ backgroundImage: "url(https://i.imgur.com/We1DyJi.png)" }}
+        className="flex flex-col justify-center items-center relative overflow-hidden h-[479px] bg-cover"
+        style={{
+          backgroundImage: "url(https://i.imgur.com/We1DyJi.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
       >
-      <div className="fontstylish text-[56px] font-weight-400">Winter Of Code</div>
-        <div className=" fontstylish text-[26px] font-weight-400">Organized by</div>
-        <div className=" fontstylish font-weight-400 text-[34px]">Devlup Labs</div>
+        <div className=" mx-5 fontstylish text-center text-[56px] relative z-10 font-weight-400">
+          Winter Of Code
+        </div>
+        <div className=" mx-5 fontstylish text-[26px] text-center relative z-10 font-weight-400">
+          Organized by
+        </div>
+        <div className=" mx-5 fontstylish font-weight-400 text-center relative z-10 text-[34px]">
+          Devlup Labs
+        </div>
       </div>
-      
+
       <div className="bg-slate-100 ">
-        <div className="flex justify-center text-[24px] py-10">
+        <div className="flex  text-center justify-center  text-[24px] py-10">
           The best way to engage in open source development
         </div>
-        <div className=" grid grid-cols-3">
+        <div className=" grid md:grid-cols-3">
           <div className=" ml-5">
-             <div className="flex justify-center">
-           <MdSupervisorAccount className="h-12 w-12 m-3 flex text-blue-500"/>
-           </div>
-            <div className="flex justify-center text-[26px]">
-              Working with experienced
+            <div className="flex justify-center">
+              <MdSupervisorAccount className="h-12 w-12 m-3 flex text-blue-500" />
             </div>
-            <div className="flex text-[26px] justify-center">mentors</div>
+            <div className="flex mx-5 justify-center text-center text-[26px]">
+              Working with experienced mentors
+            </div>
             <div className="font-sans text-[18px] m-5">
               WoC is a place where you don’t just get to apply your skills but
               also get to acquire a bunch of new ones. WoC introduces you to the
               open source world and building code collaboratively while working
-            
               under experienced mentors.
             </div>
           </div>
-          <div  >
+          <div>
             <div className="flex justify-center">
-           <MdBuild className="h-12 w-12 flex m-3 text-blue-500"/>
-           </div>
+              <MdBuild className="h-12 w-12 flex m-3 text-blue-500" />
+            </div>
             <div className="flex justify-center text-[26px]">
               Learn development
             </div>
@@ -50,10 +59,10 @@ const Home = () => {
               track of the changes and create your Pull Requests on GitHub.
             </div>
           </div>
-          <div >
-             <div className="flex justify-center">
-           <IoMdFlash className="h-12 w-12 flex m-3 text-blue-500"/>
-           </div>
+          <div>
+            <div className="flex justify-center">
+              <IoMdFlash className="h-12 w-12 flex m-3 text-blue-500" />
+            </div>
             <div className="flex justify-center text-[26px]">
               Contribute to Open Source
             </div>
@@ -66,20 +75,39 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="h-[320px] w-screen flex flex-col justify-center items-center" style={{backgroundImage:"url(https://i.imgur.com/WwDfTfH.png)"}}>
-     <div className="text-[26px] text-white">Diving into open source development has never been simpler.</div>
-      <div className="text-[15px] m-2 italic text-white">Now build something!</div>
+      <div
+        className="h-[320px] w-screen flex  flex-col justify-center items-center relative overflow-hidden"
+        style={{
+          backgroundImage: "url(https://i.imgur.com/WwDfTfH.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
+      >
+        <div className="text-[26px] text-center mx-10 text-white relative z-10">
+          Diving into open source development has never been simpler.
+        </div>
+        <div className="text-[15px] text-center m-2 italic text-white relative z-10">
+          Now build something!
+        </div>
+        <div className="absolute top-0 left-0 w-full h-full filter blur-sm z-0"></div>
       </div>
-      <div className="flex justify-center text-[35px] my-20">
+      <div className="flex justify-center text-center text-[35px] my-20">
         Interested to know more?
       </div>
       <div className="flex justify-center">
-        <a href="https://woc.devluplabs.tech/how-it-works" className="flex justify-center fontstylish py-2 hover:bg-slate-200 rounded-sm text-[16px] font-weight-400 text-slate-800 border-black border-[1px] m-2  w-[600px] ">
+        <a
+          href="https://woc.devluplabs.tech/how-it-works"
+          className="flex justify-center fontstylish py-2 hover:bg-slate-200 rounded-sm text-[16px] font-weight-400 text-slate-800 border-black border-[1px] m-2  w-[600px] "
+        >
           SEE PROGRAM TIMELINE
         </a>
       </div>
       <div className="flex justify-center ">
-        <a href="" className="flex justify-center fontstylish py-2 hover:bg-slate-200 rounded-sm text-slate-800 border-black border-[1px]  text-[16px] m-2 w-[600px]">
+        <a
+          href=""
+          className="flex justify-center fontstylish py-2 hover:bg-slate-200 rounded-sm text-slate-800 border-black border-[1px]  text-[16px] m-2 w-[600px]"
+        >
           STUDENT MANUAL
         </a>
       </div>
@@ -87,14 +115,16 @@ const Home = () => {
         <a className="flex justify-center hover:bg-slate-200 fontstylish py-2 rounded-sm text-slate-800 text-[16px] border-black border-[1px] m-2 w-[600px] ">
           MENTOR MANUAL
         </a>
-
       </div>
-      <div className="flex justify-center text-[35px] my-20">
+      <div className="flex justify-center text-center mx-6 text-[35px] my-20">
         Login with your Gmail account to register as a student
       </div>
 
       <div className="flex justify-center">
-        <a href="https://woc.devluplabs.tech/how-it-works" className="flex justify-center py-2  text-slate-800 rounded-sm hover:bg-slate-200  text-[16px] border-black border-[1px] m-2 w-[600px] fontstylish ">
+        <a
+          href="https://woc.devluplabs.tech/how-it-works"
+          className="flex justify-center py-2  text-slate-800 rounded-sm hover:bg-slate-200  text-[16px] border-black border-[1px] m-2 w-[600px] fontstylish "
+        >
           REGISTER
         </a>
       </div>
