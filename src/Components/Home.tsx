@@ -3,9 +3,14 @@ import { IoMail } from "react-icons/io5";
 import { IoMdFlash } from "react-icons/io";
 import { BiLogoDiscord } from "react-icons/bi";
 import { MdSupervisorAccount, MdBuild } from "react-icons/md";
+import { useRecoilState } from "recoil";
+import { togglestate } from "../store/toggle";
 const Home = () => {
+  const [toggle, settoggle] = useRecoilState(togglestate);
   return (
-    <div className="overflow-x-hidden">
+    <div
+      className={`overflow-x-hidden ${toggle === null ? "" : toggle ? "contract" : "expand"}`}
+    >
       <div
         className="flex flex-col justify-center items-center relative overflow-hidden h-[479px] bg-cover"
         style={{
