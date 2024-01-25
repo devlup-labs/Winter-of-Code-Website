@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { IoMdHelpCircle } from 'react-icons/io';
 import { IoPeopleSharp, IoCodeSlash } from 'react-icons/io5';
 import { MdDashboard } from 'react-icons/md';
@@ -25,16 +25,16 @@ const Sidebar: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     >
   <div className="py-4 pl-4 pr-8 w-300 grid gap-2" style={{ fontFamily: 'Verdana, Geneva, Tahoma, sans-serif' }}>
     <a href="/" className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2">
-      <i className="fa fa-home mr-2"><RxHome className="h-6 w-6 text-gray-700 stroke-1" /></i> Home
+      <i className="fa fa-home mr-2"><RxHome className="h-6 w-6 text-gray-700 stroke-1"/></i> Home
     </a>
     <a href="/" className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2">
       <i className="fa fa-calendar mr-2"><RxCalendar className="h-6 w-6 text-gray-700 stroke-1" /></i> How It Works
     </a>
-    <a href="/" className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2">
-      <i className="material-icons mr-2"><IoPeopleSharp className="h-6 w-6 text-gray-700 stroke-1" /></i> Mentors
+    <a href="/mentors" className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2">
+      <i className="material-icons mr-2"><IoPeopleSharp className="h-6 w-6 text-gray-700 stroke-1"/></i> Mentors
     </a>
-    <a href="/" className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2">
-      <i className="fa fa-code mr-2"><IoCodeSlash className="h-6 w-6 text-gray-700 stroke-1" /></i> Projects
+    <a href="/projects" className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2">
+      <i className="fa fa-code mr-2"><IoCodeSlash className="h-6 w-6 text-gray-700 stroke-1"/></i> Projects
     </a>
     <a href="/" className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2">
       <i className="fa fa-tachometer mr-2"><MdDashboard className="h-6 w-6 text-gray-700 stroke-1" /></i> Dashboard
