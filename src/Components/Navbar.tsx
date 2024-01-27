@@ -1,7 +1,9 @@
 import { IoMdHelpCircle } from "react-icons/io";
 import { IoPeopleSharp, IoCodeSlash } from "react-icons/io5";
-import { MdDashboard } from "react-icons/md";
-import { RxCalendar, RxHamburgerMenu, RxHome } from "react-icons/rx";
+import { FaTachometerAlt } from "react-icons/fa";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { FaCalendarDays } from "react-icons/fa6";
+import { FaHome } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 import { togglestate } from "../store/toggle";
 
@@ -37,16 +39,16 @@ const Navbar: React.FC = () => {
             className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2"
           >
             <i className="fa fa-home mr-2">
-              <RxHome className="h-6 w-6 text-gray-700 stroke-1" />
+              <FaHome className="h-6 w-6 text-gray-700 stroke-1" />
             </i>{" "}
             Home
           </a>
           <a
-            href="/"
+            href="/how-it-works"
             className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2"
           >
             <i className="fa fa-calendar mr-2">
-              <RxCalendar className="h-6 w-6 text-gray-700 stroke-1" />
+              <FaCalendarDays className="h-6 w-6 text-gray-700 stroke-1" />
             </i>{" "}
             How It Works
           </a>
@@ -73,12 +75,12 @@ const Navbar: React.FC = () => {
             className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2"
           >
             <i className="fa fa-tachometer mr-2">
-              <MdDashboard className="h-6 w-6 text-gray-700 stroke-1" />
+              <FaTachometerAlt className="h-6 w-6 text-gray-700 stroke-1" />
             </i>{" "}
             Dashboard
           </a>
           <a
-            href="/"
+            href="/help"
             className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2"
           >
             <i className="material-icons mr-2">
