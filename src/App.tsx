@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import Mentors from "./Components/Mentors";
 import Help from "./Components/Help";
 import { RecoilRoot } from "recoil";
+import Projects from "./Components/Projects";
 const App = () => {
   return (
     <div className="relative flex">
@@ -16,6 +17,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/mentors" element={<Mentors />} />
             <Route path="/help" element={<Help />} />
+            <Route path="/projects" element={<Projects />} />
           </Routes>
         </RecoilRoot>
       </BrowserRouter>

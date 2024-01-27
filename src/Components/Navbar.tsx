@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
             Mentors
           </a>
           <a
-            href="/"
+            href="/projects"
             className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2"
           >
             <i className="fa fa-code mr-2">
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
             Dashboard
           </a>
           <a
-            href="/"
+            href="/help"
             className="py-2 px-4 text-primary-dark border-l-4 border-primary-dark flex align-middle gap-2"
           >
             <i className="material-icons mr-2">
