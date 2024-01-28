@@ -6,6 +6,8 @@ import Help from "./Components/Help";
 import { RecoilRoot } from "recoil";
 import Timeline from "./Components/Timeline";
 import Projects from "./Components/Projects";
+import Profile from "./Components/Profile";
+
 const App = () => {
   return (
     <div className="relative flex">
@@ -20,6 +22,7 @@ const App = () => {
             <Route path="/help" element={<Help />} />
             <Route path="/how-it-works" element={<Timeline />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </RecoilRoot>
       </BrowserRouter>
