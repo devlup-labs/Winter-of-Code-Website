@@ -31,6 +31,7 @@
     padding-left: calc(300px);
   }
 }
+
 .activeDrawer {
   width: calc(300px);
   position: fixed;
