@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import Mentors from "./Components/Mentors";
 import Help from "./Components/Help";
 import { RecoilRoot } from "recoil";
+import Timeline from "./Components/Timeline";
 import Projects from "./Components/Projects";
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/mentors" element={<Mentors />} />
             <Route path="/help" element={<Help />} />
+            <Route path="/how-it-works" element={<Timeline />} />
             <Route path="/projects" element={<Projects />} />
           </Routes>
         </RecoilRoot>
