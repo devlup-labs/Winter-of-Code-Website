@@ -7,6 +7,7 @@ import { RecoilRoot } from "recoil";
 import Timeline from "./Components/Timeline";
 import Projects from "./Components/Projects";
 import Profile from "./Components/Profile";
+import Programs from "./Components/Programs";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Navbar />
           </div>
           <Routes>
+            <Route path="/pastprogram" element={<Programs />} />
             <Route path="/" element={<Home />} />
             <Route path="/mentors" element={<Mentors />} />
             <Route path="/help" element={<Help />} />
