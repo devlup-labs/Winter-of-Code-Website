@@ -5,8 +5,12 @@ import { BiLogoDiscord } from "react-icons/bi";
 import { MdSupervisorAccount, MdBuild } from "react-icons/md";
 import { useRecoilState } from "recoil";
 import { togglestate } from "../store/toggle";
+import woc from "../assets/WOC.png";
+import dev from "../assets/devlogo.png";
+import org from "../assets/orglogo.png";
 const Home = () => {
   const [toggle, settoggle] = useRecoilState(togglestate);
+
   return (
     <div
       className={`overflow-x-hidden ${toggle === null ? "" : toggle ? "contract" : "expand"}`}
@@ -20,15 +24,21 @@ const Home = () => {
           backgroundAttachment: "fixed",
         }}
       >
-        <div className=" mx-5 fontstylish text-center text-[56px] relative z-10 font-weight-400">
-          Winter Of Code
-        </div>
-        <div className=" mx-5 fontstylish text-[26px] text-center relative z-10 font-weight-400">
-          Organized by
-        </div>
-        <div className=" mx-5 fontstylish font-weight-400 text-center relative z-10 text-[34px]">
-          Devlup Labs
-        </div>
+        <img
+          className=" mx-5 fontstylish text-center text-[20px] relative z-10 sm:h-[120px] font-weight-400"
+          src={woc}
+          alt="woc"
+        />
+        <img
+          className=" mx-5 fontstylish text-[26px] text-center relative z-10 font-weight-400 h-[80px] sm:h-[80px]"
+          src={org}
+          alt="organized by"
+        />
+        <img
+          className=" mx-5 fontstylish font-weight-400 text-center relative z-10 text-[34px] sm:h-[100px]"
+          src={dev}
+          alt="devluplabs"
+        />
       </div>
 
       <div className="bg-slate-100 ">
