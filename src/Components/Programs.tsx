@@ -13,14 +13,26 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import DialogContent from "@mui/joy/DialogContent";
 import { Divider } from "@mui/material";
 import { RxAvatar } from "react-icons/rx";
-interface project {
+import { useState, useEffect } from "react";
+import axios from "axios";
+interface program {
   year: string;
   mentor: string;
-  contributors: string;
+  mentee: string;
   title: string;
-  tag: string;
+  description: string;
+  codelink: string;
+  technology: string;
 }
-const ProjectCard = ({ mentor, year, contributors, title, tag }: project) => {
+const ProjectCard = ({
+  mentor,
+  year,
+  mentee,
+  title,
+  description,
+  codelink,
+  technology,
+}: program) => {
   const [open, setOpen] = React.useState<boolean>(false);
   return (
     <React.Fragment>
@@ -72,14 +84,19 @@ const ProjectCard = ({ mentor, year, contributors, title, tag }: project) => {
           </div>
           <CardContent>
             <div className="text-[15px] text-slate-600 font-sans2 ">
-              {tag.slice(0, 140)}.
+              {description.slice(0, 140)}.
             </div>
           </CardContent>
           <CardActions>
             <Button variant="contained" onClick={() => setOpen(true)}>
               View details
             </Button>
-            <Button variant="contained">View Code</Button>
+            <Button
+              variant="contained"
+              onClick={() => (window.location.href = codelink)}
+            >
+              View Code
+            </Button>
           </CardActions>
         </Card>
         <Transition in={open} timeout={400}>
@@ -128,20 +145,25 @@ const ProjectCard = ({ mentor, year, contributors, title, tag }: project) => {
                       </div>
                     </div>
                     <div className="text-[20px]">
-                      Contributors<div>{contributors}</div>
+                      Contributors<div>{mentee}</div>
                     </div>
                   </div>
                   <Divider style={{ background: "#A9A9A9" }} variant="middle" />
-                  <div className="m-3 font-sans2">{tag}</div>
+                  <div className="m-3 font-sans2">{description}</div>
                   <div className="flex flex-wrap">
                     <div className="sm:my-3 ml-3 mr-1  font-sans2 text-blue-600 font-bold">
-                      TechStack :
+                      technology :
                     </div>
                     <div className="sm:my-3 ml-3  font-sans2 text-black">
-                      React,Django,Typescript
+                      {technology}
                     </div>
                   </div>
-                  <Button variant="contained">View Code</Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => (window.location.href = codelink)}
+                  >
+                    View Code
+                  </Button>
                 </DialogContent>
               </ModalDialog>
             </Modal>
@@ -152,53 +174,15 @@ const ProjectCard = ({ mentor, year, contributors, title, tag }: project) => {
   );
 };
 const Programs = () => {
-  const programs: project[] = [
-    {
-      mentor: "Piyush",
-      contributors: "Rahul ,Ishan",
-      title: "Rewamp of WOC Website",
-      tag: "Improve the WOC website by replacing the existing code written in Vue with React. This will involve integrating the React code with the website's existing backend. The goal of this project is to improve the website's performance, scalability, and maintainability.Creating this page and making it responsive adding new feaures Use caution when having button text appear distinct from non-interactive text, such as this upper lower, sans serif typeface on a button.",
-      year: "2024",
-    },
-    {
-      mentor: "Piyush",
-      contributors: "Rahul ,Ishan",
-      title: "Rewamp of WOC Website",
-      tag: "Creating this page Use caution when having button text appear distinct from non-interactive text, such as this upper lower, sans serif typeface on a button.",
-      year: "2024",
-    },
-    {
-      mentor: "Piyush",
-      contributors: "Rahul ,Ishan",
-      title: "Rewamp of WOC Website",
-      tag: "Improve the WOC website by replacing the existing code written in Vue with React. This will involve integrating the React code with the website's existing backend. The goal of this project is to improve the website's performance, scalability, and maintainability.Creating this page and making it responsive adding new feaures Use caution when having button text appear distinct from non-interactive text, such as this upper lower, sans serif typeface on a button.",
-      year: "2024",
-    },
-
-    {
-      mentor: "Piyush",
-      contributors: "Rahul ,Ishan",
-      title: "Rewamp of WOC Website",
-      tag: "Improve the WOC website by replacing the existing code written in Vue with React. This will involve integrating the React code with the website's existing backend. The goal of this project is to improve the website's performance, scalability, and maintainability.Creating this page and making it responsive adding new feaures Use caution when having button text appear distinct from non-interactive text, such as this upper lower, sans serif typeface on a button.",
-      year: "2024",
-    },
-
-    {
-      mentor: "Piyush",
-      contributors: "Rahul ,Ishan",
-      title: "Rewamp of WOC Website",
-      tag: "Improve the WOC website by replacing the existing code written in Vue with React. This will involve integrating the React code with the website's existing backend. The goal of this project is to improve the website's performance, scalability, and maintainability.Creating this page and making it responsive adding new feaures Use caution when having button text appear distinct from non-interactive text, such as this upper lower, sans serif typeface on a button.",
-      year: "2024",
-    },
-
-    {
-      mentor: "Piyush",
-      contributors: "Rahul ,Ishan",
-      title: "Rewamp of WOC Website",
-      tag: "Improve the WOC website by replacing the existing code written in Vue with React. This will involve integrating the React code with the website's existing backend. The goal of this project is to improve the website's performance, scalability, and maintainability.Creating this page and making it responsive adding new feaures Use caution when having button text appear distinct from non-interactive text, such as this upper lower, sans serif typeface on a button.",
-      year: "2024",
-    },
-  ];
+  const [programs, setprograms] = useState<program[]>();
+  useEffect(() => {
+    const pastprograms = async () => {
+      const resp = await axios.get("http://localhost:5000/pastprograms");
+      console.log(resp);
+      setprograms(resp.data);
+    };
+    pastprograms();
+  }, []);
   const [toggle, settoggle] = useRecoilState(togglestate);
   return (
     <div
@@ -225,19 +209,23 @@ const Programs = () => {
         </button>
       </div>
       <div className=" sm:flex  flex-wrap justify-center shadow-custom bg-slate-100 p-5 sm:mx-16 mx-8 my-8 ">
-        {programs.map((x: project) => {
-          return (
-            <div className="flex justify-center">
-              <ProjectCard
-                year={x.year}
-                mentor={x.mentor}
-                tag={x.tag}
-                title={x.title}
-                contributors={x.contributors}
-              />
-            </div>
-          );
-        })}
+        {programs &&
+          programs.length > 0 &&
+          programs.map((x: program) => {
+            return (
+              <div className="flex justify-center">
+                <ProjectCard
+                  year={x.year}
+                  mentor={x.mentor}
+                  description={x.description}
+                  title={x.title}
+                  mentee={x.mentee}
+                  technology={x.technology}
+                  codelink={x.codelink}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
