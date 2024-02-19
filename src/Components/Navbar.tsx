@@ -5,7 +5,7 @@ import { FaTachometerAlt } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaCalendarDays } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -18,6 +18,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Mentor {
   id: string;
@@ -35,25 +38,57 @@ const style = {
   p: 4,
 };
 const Navbar: React.FC = () => {
+  const [open3, setOpen3] = useState(false);
+
+  const handleClick3 = () => {
+    setOpen3(true);
+  };
+
+  const handleClose3 = (
+    event: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen3(false);
+  };
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose3}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose3}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   const [mentors, setmentors] = useState<Mentor[]>();
-  useEffect(() => {
-    const getrequests = async () => {
-      const resp = await axios.get("http://localhost:5000/getrequests");
-      console.log(resp.data);
-      setmentors(resp.data);
-    };
-    getrequests();
-  }, []);
   const accept = async (Id: string) => {
     if (user) {
       const resp = await axios.post("http://localhost:5000/acceptmentor", {
         id: Id,
       });
       console.log(resp);
+      const resp2 = await axios.get("http://localhost:5000/getrequests");
+      setmentors(resp2.data);
+      handleClick3();
     }
   };
   const [open2, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = async () => {
+    const resp = await axios.get("http://localhost:5000/getrequests");
+    console.log(resp.data);
+    setmentors(resp.data);
+    setOpen(true);
+  };
   const handleClose2 = () => setOpen(false);
   const [user, setuser] = useRecoilState(userstate);
   const request = async () => {
@@ -262,10 +297,19 @@ const Navbar: React.FC = () => {
                               <div>{x.name}</div>
                               <Button
                                 variant="contained"
-                                onClick={() => accept(x.id)}
+                                onClick={() => {
+                                  accept(x.id);
+                                }}
                               >
                                 Accept Request
                               </Button>
+                              <Snackbar
+                                open={open3}
+                                autoHideDuration={6000}
+                                onClose={handleClose3}
+                                message="Accepted Request"
+                                action={action}
+                              />
                             </div>
                           );
                         })}

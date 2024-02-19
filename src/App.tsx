@@ -35,6 +35,8 @@ const App = () => {
           githublink: userinfo.data.user.githublink,
           gender: userinfo.data.user.gender,
         });
+      } else {
+        localStorage.removeItem("access_token");
       }
 
       console.log(user);
