@@ -24,6 +24,7 @@ interface program {
   codelink: string;
   technology: string;
 }
+
 const ProjectCard = ({
   mentor,
   year,
@@ -175,6 +176,8 @@ const ProjectCard = ({
 };
 const Programs = () => {
   const [programs, setprograms] = useState<program[]>();
+  const [temp, settemp] = useState("");
+  const [query, setquery] = useState("");
   useEffect(() => {
     const pastprograms = async () => {
       const resp = await axios.get("http://localhost:5000/pastprograms");
@@ -183,6 +186,18 @@ const Programs = () => {
     };
     pastprograms();
   }, []);
+
+  const filteredPrograms = programs?.filter((x) => {
+    return (
+      x.title.toLowerCase().includes(query.toLowerCase()) ||
+      x.mentor.toLowerCase().includes(query.toLowerCase()) ||
+      x.mentee.toLowerCase().includes(query.toLowerCase()) ||
+      x.year.toLowerCase().includes(query.toLowerCase()) ||
+      x.description.toLowerCase().includes(query.toLowerCase()) ||
+      x.technology.toLowerCase().includes(query.toLowerCase())
+    );
+  });
+
   const [toggle, settoggle] = useRecoilState(togglestate);
   return (
     <div
@@ -203,15 +218,23 @@ const Programs = () => {
         <input
           placeholder="Search Projects"
           className="sm:w-[900px] shadow-md shadow-slate-500 rounded-lg p-3 outline-none font-sans2 "
+          onChange={(e) => {
+            {
+              e.target.value != "" ? settemp(e.target.value) : setquery("");
+            }
+          }}
         />
-        <button className="bg-blue-600 p-2 rounded-md font-sans2 shadow-md shadow-slate-500 text-white font-extrabold text-[20px] mx-3">
+        <button
+          onClick={() => setquery(temp)}
+          className="bg-blue-600 p-2 rounded-md font-sans2 shadow-md shadow-slate-500 text-white font-extrabold text-[20px] mx-3"
+        >
           Search
         </button>
       </div>
       <div className=" sm:flex  flex-wrap justify-center shadow-custom bg-slate-100 p-5 sm:mx-16 mx-8 my-8 ">
-        {programs &&
-          programs.length > 0 &&
-          programs.map((x: program) => {
+        {filteredPrograms &&
+          filteredPrograms.length > 0 &&
+          filteredPrograms.map((x: program) => {
             return (
               <div className="flex justify-center">
                 <ProjectCard

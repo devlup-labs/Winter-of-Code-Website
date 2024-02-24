@@ -12,9 +12,12 @@ import {
   PiNumberCircleTwoFill,
 } from "react-icons/pi";
 import { PiNumberCircleNineFill } from "react-icons/pi";
-import { Button, Checkbox } from "@mui/material";
+import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
+import { userstate } from "../store/user";
+import axios from "axios";
 interface timeline {
+  id: string;
   date: String;
   event: String[];
   completed: boolean;
@@ -25,9 +28,13 @@ const Timeline = () => {
   const [toggle, settoggle] = useRecoilState(togglestate);
   const [editmode, setmode] = useState<boolean>(false);
   const [timelines, settimeline] = useState<timeline[]>();
-  const user = {
-    name: "rahul",
-    role: "scrummaster",
+  const [user, setuser] = useRecoilState(userstate);
+  const updatetimeline = async (id: string, completed: boolean) => {
+    const resp = await axios.put(
+      `http://localhost:5000/updatetimeline/${id}/${!completed}`,
+    );
+    setstatus(!status);
+    console.log(resp);
   };
   useEffect(() => {
     const getTimeline = async () => {
@@ -38,19 +45,17 @@ const Timeline = () => {
         const parsedData = data.map((obj: any) => {
           return {
             ...obj,
-            events: JSON.parse(obj.events), // Parse the events string into an array
+            events: JSON.parse(obj.events),
           };
         });
-        console.log(parsedData);
 
         settimeline(parsedData);
-        // Log fetched data
       } catch (error) {
         console.error("Error fetching timeline:", error);
       }
     };
     getTimeline();
-  }, [editmode]);
+  }, [editmode, status]);
   const events = [
     { logo: <PiNumberCircleOneFill /> },
     {
@@ -111,7 +116,7 @@ const Timeline = () => {
           </div>
           <div className="flex justify-between m-10">
             <div className="sm:text-[35px] text-[25px]">Timeline</div>
-            {user.role == "scrummaster" ? (
+            {user && user.role == "scrummaster" ? (
               <Button variant="contained" onClick={() => setmode(!editmode)}>
                 Edit Page
               </Button>
@@ -128,12 +133,7 @@ const Timeline = () => {
                       <>
                         <div className="flex ">
                           {editmode ? (
-                            <Checkbox
-                              checked={status}
-                              onChange={() => {
-                                setstatus(!status);
-                              }}
-                            />
+                            <></>
                           ) : x.completed ? (
                             <li className=" py-6 px-5 list-none text-blue-600 text-[24px]">
                               <FaCheckCircle />
@@ -147,13 +147,29 @@ const Timeline = () => {
                             <li className="py-5 text-[20px] list-none text-blue-600 font-weight">
                               {x.date}
                             </li>
-                            {editmode && (
-                              <div>
-                                <Button className="m-5 p-3" variant="contained">
-                                  Save
+                            {editmode &&
+                              (x.completed == false ? (
+                                <Button
+                                  className="m-5 p-3  h-[50px]"
+                                  color="error"
+                                  variant="contained"
+                                  onClick={() =>
+                                    updatetimeline(x.id, x.completed)
+                                  }
+                                >
+                                  Not Completed
                                 </Button>
-                              </div>
-                            )}
+                              ) : (
+                                <Button
+                                  className="m-5 p-3 h-[50px]"
+                                  variant="contained"
+                                  onClick={() =>
+                                    updatetimeline(x.id, x.completed)
+                                  }
+                                >
+                                  Completed
+                                </Button>
+                              ))}
                           </div>
                         </div>
                         {x.events.map((y) => {
@@ -170,19 +186,6 @@ const Timeline = () => {
                   <></>
                 )}
               </ul>
-              {editmode && (
-                <div className="m-5 ">
-                  <Button
-                    onClick={() => {
-                      setmode(!editmode);
-                    }}
-                    variant="contained"
-                    className="h-[35px] w-[80px]"
-                  >
-                    Save
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
         </div>

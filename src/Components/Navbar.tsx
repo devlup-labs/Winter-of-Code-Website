@@ -38,8 +38,34 @@ const style = {
   p: 4,
 };
 const Navbar: React.FC = () => {
+  const [open4, setOpen4] = React.useState(false);
   const [open3, setOpen3] = useState(false);
 
+  const handleClose4 = (
+    event: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen4(false);
+  };
+  const action2 = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose4}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose4}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
   const handleClick3 = () => {
     setOpen3(true);
   };
@@ -97,6 +123,9 @@ const Navbar: React.FC = () => {
         id: user.id,
         name: user.first_name + " " + user.last_name,
       });
+      setsuccess(resp.data.msg);
+      setOpen4(true);
+      setAnchorEl(null);
       console.log(resp);
     }
   };
@@ -120,6 +149,7 @@ const Navbar: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const [success, setsuccess] = useState("");
   const Sidebar: React.FC<{ onClose: () => void }> = () => {
     return (
       <aside
@@ -176,14 +206,28 @@ const Navbar: React.FC = () => {
               Projects
             </div>
           </Link>
-          <Link to={"/"}>
-            <div className="py-2 px-4 text-primary-dark border-l-4 hover:bg-slate-100 border-primary-dark flex align-middle gap-2">
-              <i className="fa fa-tachometer mr-2">
-                <FaTachometerAlt className="h-6 w-6 text-gray-700 stroke-1" />
-              </i>{" "}
-              Dashboard
-            </div>
-          </Link>
+          {user && user.role == "1" ? (
+            <Link to={"/myprojects"}>
+              <div className="py-2 px-4 text-primary-dark border-l-4 hover:bg-slate-100 border-primary-dark flex align-middle gap-2">
+                <i className="fa fa-tachometer mr-2">
+                  <FaTachometerAlt className="h-6 w-6 text-gray-700 stroke-1" />
+                </i>{" "}
+                MyProjects
+              </div>
+            </Link>
+          ) : (
+            user &&
+            user.role == "2" && (
+              <Link to={"/proposals"}>
+                <div className="py-2 px-4 text-primary-dark border-l-4 hover:bg-slate-100 border-primary-dark flex align-middle gap-2">
+                  <i className="fa fa-tachometer mr-2">
+                    <FaTachometerAlt className="h-6 w-6 text-gray-700 stroke-1" />
+                  </i>{" "}
+                  Proposals
+                </div>
+              </Link>
+            )
+          )}
           <Link to={"/pastprogram"}>
             <div className="py-2 px-4 text-primary-dark hover:bg-slate-100 border-l-4 border-primary-dark flex align-middle gap-2">
               <i className="fa fa-code mr-2">
@@ -303,17 +347,10 @@ const Navbar: React.FC = () => {
                               >
                                 Accept Request
                               </Button>
-                              <Snackbar
-                                open={open3}
-                                autoHideDuration={6000}
-                                onClose={handleClose3}
-                                message="Accepted Request"
-                                action={action}
-                              />
                             </div>
                           );
                         })}
-                    </div>{" "}
+                    </div>
                   </Box>
                 </Modal>
                 <MenuItem
@@ -326,6 +363,21 @@ const Navbar: React.FC = () => {
                   Logout
                 </MenuItem>
               </Menu>
+              <Snackbar
+                open={open3}
+                autoHideDuration={6000}
+                onClose={handleClose3}
+                message="Accepted Request"
+                action={action}
+              />
+
+              <Snackbar
+                open={open4}
+                autoHideDuration={6000}
+                onClose={handleClose4}
+                message={success}
+                action={action2}
+              />
             </div>
           )
         )}
