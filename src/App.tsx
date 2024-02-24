@@ -13,28 +13,34 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userstate } from "./store/user";
 import axios from "axios";
-import Dashboard from "./Components/Dashboard.tsx";
+import Myprojects from "./Components/Myprojects.tsx";
+import Proposal from "./Components/Proposals.tsx";
 const App = () => {
   const [user, setuser] = useRecoilState(userstate);
   const token = localStorage.getItem("access_token");
+  const refresh_token = localStorage.getItem("refresh-token");
   useEffect(() => {
     const getuser = async () => {
       const userinfo = await axios.post("http://localhost:5000/token", {
         access_token: token,
+        refresh_token: refresh_token,
       });
       if (userinfo.data.success) {
         setuser({
           id: userinfo.data.user.id,
-          first_name: userinfo.data.user.given_name,
-          last_name: userinfo.data.user.family_name,
+          first_name: userinfo.data.user.first_name,
+          last_name: userinfo.data.user.last_name,
           image: userinfo.data.image,
+          email: userinfo.data.user.email,
           role: userinfo.data.user.role,
           branch: userinfo.data.user.branch,
           year: userinfo.data.user.year,
           phonenumber: userinfo.data.user.phonenumber,
           githublink: userinfo.data.user.githublink,
           gender: userinfo.data.user.gender,
+          projects: userinfo.data.user?.projects,
         });
+        localStorage.setItem("access_token", userinfo.data.access_token);
       } else {
         localStorage.removeItem("access_token");
       }
@@ -51,7 +57,8 @@ const App = () => {
           <Navbar />
         </div>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/proposals" element={<Proposal />} />
+          <Route path="/myprojects" element={<Myprojects />} />
           <Route path="/login" element={<Login />} />
           <Route path="/pastprogram" element={<Programs />} />
           <Route path="/" element={<Home />} />

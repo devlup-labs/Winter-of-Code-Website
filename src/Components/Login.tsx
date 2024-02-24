@@ -18,7 +18,8 @@ const Login = () => {
       console.log(userinfo);
       if (userinfo.data.success) {
         setuser({
-          id: userinfo.data.user.id,
+          email: userinfo.data.user.email,
+          id: userinfo.data.user?.id,
           first_name: userinfo.data.user.given_name,
           last_name: userinfo.data.user.family_name,
           image: userinfo.data.user.picture,

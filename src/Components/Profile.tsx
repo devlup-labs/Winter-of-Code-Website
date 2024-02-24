@@ -91,6 +91,8 @@ const Profile: React.FC = () => {
       gender: selectedGender,
       phonenumber: parseInt(phoneNumber),
       role: role,
+      first_name: firstName,
+      last_name: lastName,
     };
     const keys = Object.keys(updateuser);
     keys.forEach((key) => {
@@ -98,12 +100,15 @@ const Profile: React.FC = () => {
       console.log(key + typeof updateuser[key]); // Output value corresponding to each key
     });
     setuser(updateuser);
+    console.log("karan");
+
     console.log(updateuser);
     if (!check && user) {
       const response = await axios.post("http://localhost:5000/user", {
         first_name: firstName,
         last_name: lastName,
         year: selectedYear,
+        email: user.email,
         branch: selectedBranch,
         githublink: githubLink,
         gender: selectedGender,
@@ -113,9 +118,6 @@ const Profile: React.FC = () => {
       });
       console.log(response.data);
       if (response.data.success == "true") navigate("/");
-      else {
-        alert("some internal error please Wait");
-      }
     } else if (check && change && user) {
       const updateduser = {
         first_name: firstName,

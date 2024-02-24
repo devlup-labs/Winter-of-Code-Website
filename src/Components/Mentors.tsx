@@ -4,83 +4,28 @@ import { FaGithub } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 import { togglestate } from "../store/toggle";
-interface mentor {
+import { useEffect, useState } from "react";
+import axios from "axios";
+interface Mentor {
   id: number;
   first_name: string;
   last_name: string;
   email: string;
-  phone: string;
-  about_me: string;
-  github: string;
+  phonenumber: string;
+  githublink: string;
+  image: string;
 }
 const Mentors = () => {
   const [toggle, settoggle] = useRecoilState(togglestate);
-  const accounts: mentor[] = [
-    {
-      id: 3,
-      first_name: "Rohit",
-      last_name: "Kori",
-      email: "kori.1@iitj.ac.in",
-      phone: "7440777945",
-      about_me: "",
-      github: "https://github.com/rohitkori",
-    },
-    {
-      id: 4,
-      first_name: "Saahil",
-      last_name: "Bhavsar",
-      email: "bhavsar.2@iitj.ac.in",
-      phone: "9325220982",
-      about_me: "I write clean and modular code",
-      github: "https://github.com/XanderWatson/",
-    },
-    {
-      id: 5,
-      first_name: "Anadi",
-      last_name: "Sharma",
-      email: "sharma.130@iitj.ac.in",
-      phone: "9826256162",
-      about_me: "",
-      github: "https://github.com/devlup-labs",
-    },
-    {
-      id: 6,
-      first_name: "Yuvraj",
-      last_name: "Rathva",
-      email: "rathva.1@iitj.ac.in",
-      phone: "9510071874",
-      about_me: "",
-      github: "https://github.com/yuvrajrathva",
-    },
-    {
-      id: 7,
-      first_name: "Piyush",
-      last_name: "Jhamnani",
-      email: "jhamnani.1@iitj.ac.in",
-      phone: "7014846842",
-      about_me: "",
-      github: "https://github.com/PJiyush",
-    },
-    {
-      id: 8,
-      first_name: "Jaimin",
-      last_name: "Gajjar",
-      email: "gajjar.2@iitj.ac.in",
-      phone: "7567773545",
-      about_me: "",
-      github: "https://github.com/devlup-labs",
-    },
-    {
-      id: 9,
-      first_name: "Govind",
-      last_name: "Mali",
-      email: "mali.5@iitj.ac.in",
-      phone: "+91 73782 31254",
-      about_me: "",
-      github: "https://github.com/govind72",
-    },
-  ];
-  console.log(accounts);
+  const [mentors, setmentors] = useState<Mentor[]>();
+  useEffect(() => {
+    const getmentors = async () => {
+      const resp = await axios.get("http://localhost:5000/allmentors");
+      console.log(resp);
+      setmentors(resp.data);
+    };
+    getmentors();
+  }, []);
   return (
     <div className="border-2 border-black relative w-screen overflow-x-hidden h-screen ">
       <div
@@ -102,33 +47,42 @@ const Mentors = () => {
               agrees to mentor you with your proposed project. A mentor has to
               create the project for it to be considered a valid project.
             </div>
-            {accounts.map((x: mentor) => {
-              return (
-                <div className="m-5 rounded-md shadow-md hover:rounded-2xl shadow-mentor duration-500 hover:scale-105 flex justify-between ">
-                  <div className="md2:mx-10 text-center mx-5 my-8 font-weight-400 text-[24px] fontstylish">
-                    {x.first_name} {x.last_name}
-                    <div className="flex  justify-center">
-                      <a
-                        className="pr-2 py-4  text-[26px] h-20"
-                        href="www.google.com"
-                      >
-                        <IoMail />
-                      </a>
-                      <a className="p-2 py-4" href="www.google.com">
-                        <FaWhatsapp />
-                      </a>
-                      <a className="p-2 py-4" href="www.google.com">
-                        <FaGithub />
-                      </a>
+            {mentors &&
+              mentors.length > 0 &&
+              mentors.map((x: Mentor) => {
+                return (
+                  <div className="m-5 rounded-md shadow-md hover:rounded-2xl shadow-mentor duration-500 hover:scale-105 flex justify-between ">
+                    <div className="md2:mx-10 text-center mx-5 my-8 font-weight-400 text-[24px] fontstylish">
+                      {x.first_name} {x.last_name}
+                      <div className="flex  justify-center">
+                        <a
+                          className="pr-2 py-4  text-[26px] h-20"
+                          href={`mailto:${x.email}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IoMail />
+                        </a>
+                        <a
+                          href={`https://wa.me/+91${x.phonenumber}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 py-4"
+                        >
+                          <FaWhatsapp />
+                        </a>
+                        <a className="p-2 py-4" href={x.githublink}>
+                          <FaGithub />
+                        </a>
+                      </div>
                     </div>
+                    <img
+                      className=" md2:w-[130px] md:h-[130px] rounded-full m-8 w-[120px] h-[120px] md2:mx-20"
+                      src={Avatar}
+                    />
                   </div>
-                  <img
-                    className=" md2:w-[130px] md:h-[130px] rounded-full m-8 w-[120px] h-[120px] md2:mx-20"
-                    src={Avatar}
-                  />
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>
