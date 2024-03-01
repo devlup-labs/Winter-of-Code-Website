@@ -4,6 +4,7 @@ import { IoPeopleSharp, IoCodeSlash } from "react-icons/io5";
 import { FaTachometerAlt } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaCalendarDays } from "react-icons/fa6";
+import { GrHistory } from "react-icons/gr";
 import { FaHome } from "react-icons/fa";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
