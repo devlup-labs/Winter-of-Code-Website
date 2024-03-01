@@ -143,7 +143,7 @@ const Projects = () => {
         <div className="flex justify-center">
           <div className=" md2:my-[120px] bg-white md2:w-[808px] shadow-custom md2:absolute md2:top z-0  ">
             <div className="mx-8 my-5 text-[24px] fontstylish font-weight-400 text-blue-600">
-              Prescription
+              Projects
             </div>
             <div className="flex"></div>
             <div>

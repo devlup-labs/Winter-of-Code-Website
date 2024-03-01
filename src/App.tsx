@@ -15,6 +15,8 @@ import { userstate } from "./store/user";
 import axios from "axios";
 import Myprojects from "./Components/Myprojects.tsx";
 import Proposal from "./Components/Proposals.tsx";
+import AdminPortal from "./Components/adminportal.tsx";
+import Scrummaster from "./Components/scrummaster.tsx";
 const App = () => {
   const [user, setuser] = useRecoilState(userstate);
   const token = localStorage.getItem("access_token");
@@ -68,6 +70,8 @@ const App = () => {
           <Route path="/how-it-works" element={<Timeline />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminPortal />} />
+          <Route path="/scrumprojects" element={<Scrummaster />} />
         </Routes>
       </BrowserRouter>
     </div>
