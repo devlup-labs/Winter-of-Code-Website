@@ -2,6 +2,25 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useRecoilState } from 'recoil';
 import { togglestate } from '../store/toggle';
 
+interface ProjectCardProps {
+  mentor: string;
+  contributors: string;
+  projectName: string;
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ mentor, contributors, projectName }) => {
+  return (
+    <div className="flex flex-col items-center pb-10">
+        <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="Bonnie image"/>
+        <h5 className="mb-1 text-xl font-medium text-gray-900">{projectName}</h5>
+        <span className="text-sm text-gray-500 text-center">Mentor: {mentor} <br></br>Contributors: {contributors}</span>
+        <div className="flex mt-4 md:mt-6">
+            <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Details</a>
+            <a href="#" className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Progress</a>
+        </div>
+    </div>
+  )
+}
 
 const Scrummaster: React.FC = () => {
   const [agreed, setAgreed] = useState(false);
@@ -60,15 +79,10 @@ const Scrummaster: React.FC = () => {
             </ul>
         </div>
     </div>
-    <div className="flex flex-col items-center pb-10">
-        <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="Bonnie image"/>
-        <h5 className="mb-1 text-xl font-medium text-gray-900">WOC Website Revamp</h5>
-        <span className="text-sm text-gray-500 text-center">Mentor: Piyush <br></br>Contributors: Ishan, Rahul</span>
-        <div className="flex mt-4 md:mt-6">
-            <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Details</a>
-            <a href="#" className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Progress</a>
-        </div>
-    </div>
+    <ProjectCard 
+    mentor="Piyush" 
+    contributors="Ishan, Rahul" 
+    projectName="WOC Website Revamp" />
 </div>
 </div>
 
