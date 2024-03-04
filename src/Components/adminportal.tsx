@@ -17,7 +17,69 @@ import {
 } from '@heroicons/react/20/solid'
 import { Menu, Transition } from '@headlessui/react'
 
+interface CurrentProgramProps {
+  name: string;
+  dates: string;
+  active: string;
+}
 
+const CurrentProgram: React.FC<CurrentProgramProps> = ({ name,dates,active }) => {
+  return (
+    <div>
+    <br></br>
+        <hr></hr>
+        <hr></hr>
+        
+       
+        <br></br>
+        <div className=" flex justify-center">
+        <h2 className="text-2xl font-semibold leading-7 text-gray-900 sm:truncate sm:text-xxl sm:tracking-tight">
+          {name}
+        </h2>
+        </div>
+        
+        <div className="mt-1 flex flex-col justify-center sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
+        
+          <div className="mt-2 flex items-center text-sm text-gray-500">
+            <CalendarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+            {dates}
+          </div>
+          
+          </div>
+
+          <div className="mt-2 flex justify-center items-center text-sm text-gray-500">
+            <FaCircle className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+            {active}
+          </div>
+          <br></br>
+          <div className='flex justify-center'>
+          <span className="hidden sm:block mx-4">
+        <Link to={""}>
+          <button
+            type="button"
+            className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            <span className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true">+</span>
+        Add Projects
+          </button>
+          </Link>
+        </span>
+        <span className="hidden sm:block mx-4">
+        <Link to={""}>
+          <button
+            type="button"
+            className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            <PencilIcon className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+        Update Projects
+          </button>
+          </Link>
+        </span>
+        
+        </div>
+        </div>
+  )
+}
 
 function classNames(...classes: (string | undefined | null | false)[]): string {
   return classes.filter(Boolean).join(' ');
@@ -123,57 +185,10 @@ const AdminPortal: React.FC = () => {
         <div className='flex justify-center'>
             
       <h3 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Current Programs</h3></div>
-      <br></br>
-        <hr></hr>
-        <hr></hr>
-        
-       
-        <br></br>
-        <div className=" flex justify-center">
-        <h2 className="text-2xl font-semibold leading-7 text-gray-900 sm:truncate sm:text-xxl sm:tracking-tight">
-          Winter of Code 2024
-        </h2>
-        </div>
-        
-        <div className="mt-1 flex flex-col justify-center sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
-        
-          <div className="mt-2 flex items-center text-sm text-gray-500">
-            <CalendarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-            XX Jan 24- YY Feb 24
-          </div>
-          
-          </div>
-
-          <div className="mt-2 flex justify-center items-center text-sm text-gray-500">
-            <FaCircle className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-            Active
-          </div>
-          <br></br>
-          <div className='flex justify-center'>
-          <span className="hidden sm:block mx-4">
-        <Link to={""}>
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-          >
-            <span className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true">+</span>
-        Add Projects
-          </button>
-          </Link>
-        </span>
-        <span className="hidden sm:block mx-4">
-        <Link to={""}>
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            <PencilIcon className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-        Update Projects
-          </button>
-          </Link>
-        </span>
-        
-        </div>
+      <CurrentProgram 
+    name="Winter of Code 2024" 
+    dates="XX Jan 24- YY Feb 24" 
+    active="Active" />
         
     </div>  
         
