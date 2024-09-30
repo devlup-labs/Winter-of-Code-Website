@@ -1,11 +1,11 @@
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { togglestate } from "../store/toggle";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const Help = () => {
-  const [toggle, settoggle] = useRecoilState(togglestate);
+  const toggle = useRecoilValue(togglestate);
   return (
     <div
       className={` bg-slate-100 ${toggle === null ? "" : toggle ? "contract" : "expand"}`}
