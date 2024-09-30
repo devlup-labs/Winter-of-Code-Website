@@ -3,14 +3,14 @@ import { IoMail } from "react-icons/io5";
 import { IoMdFlash } from "react-icons/io";
 import { BiLogoDiscord } from "react-icons/bi";
 import { MdSupervisorAccount, MdBuild } from "react-icons/md";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { togglestate } from "../store/toggle";
 import woc from "../assets/WOC.png";
 import dev from "../assets/devlogo.png";
 import org from "../assets/orglogo.png";
 const Home = () => {
-  const [toggle, settoggle] = useRecoilState(togglestate);
-
+  const toggle = useRecoilValue(togglestate);
+  
   return (
     <div
       className={`overflow-x-hidden ${toggle === null ? "" : toggle ? "contract" : "expand"}`}
@@ -41,7 +41,7 @@ const Home = () => {
         />
       </div>
 
-      <div className="bg-slate-100 ">
+      <div className="bg-slate-100 font-stylish ">
         <div className="flex  text-center justify-center  text-[24px] py-10">
           The best way to engage in open source development
         </div>
@@ -54,7 +54,7 @@ const Home = () => {
               Working with experienced mentors
             </div>
             <div className="font-sans text-[18px] m-5">
-              WoC is a place where you don’t just get to apply your skills but
+              WOC is a place where you don’t just get to apply your skills but
               also get to acquire a bunch of new ones. WoC introduces you to the
               open source world and building code collaboratively while working
               under experienced mentors.
