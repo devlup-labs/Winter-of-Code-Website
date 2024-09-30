@@ -1,9 +1,9 @@
 import { FaGithub } from "react-icons/fa6";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { togglestate } from "../store/toggle";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { userstate } from "../store/user";
+import { userstate } from "../store/userState";
 
 interface project {
   _id: string;
@@ -15,22 +15,33 @@ interface project {
 }
 
 const MyProjects = () => {
-  const [user, setuser] = useRecoilState(userstate);
-  const [toggle, settoggle] = useRecoilState(togglestate);
+  const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
+  const user = useRecoilValue(userstate);
+  const toggle = useRecoilValue(togglestate);
   const [projects, setprojects] = useState<project[]>();
 
   useEffect(() => {
     const getuserprojects = async () => {
       if (user) {
-        const response = await axios.get(
-          `http://localhost:5000/${user.id}/projects`,
-        );
-        console.log(response);
-        setprojects(response.data);
+        const token = localStorage.getItem("jwt_token")
+          try {
+              const response = await axios.get(
+                  `${BASE_URL}/${user.id}/projects`,
+                  {
+                      headers: {
+                          'Authorization': `Bearer ${token}` 
+                      }
+                  }
+              );
+              console.log(response);
+              setprojects(response.data);
+          } catch (error) {
+              console.error("Error fetching user projects:", error);
+          }
       }
-    };
+  };
     getuserprojects();
-  }, []);
+  });
   return (
     <div className=" relative w-screen overflow-x-hidden h-screen ">
       <div

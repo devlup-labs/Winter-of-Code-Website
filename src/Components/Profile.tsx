@@ -1,24 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue,useRecoilState} from "recoil";
 import { togglestate } from "../store/toggle";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { userstate } from "../store/user";
-interface User {
-  first_name: string;
-  last_name: string;
-  role?: string;
-  year?: string;
-  branch?: string;
-  phonenumber?: number;
-  githublink?: string;
-  image: string;
-  gender: string;
-}
-function classNames(...classes: (string | undefined | null | false)[]): string {
-  return classes.filter(Boolean).join(" ");
-}
+import { userstate } from "../store/userState";
 
 const Profile: React.FC = () => {
   const [user, setuser] = useRecoilState(userstate);
@@ -27,36 +13,42 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const getuser = async () => {
       if (user) {
-        const userinfo = await axios.post("http://localhost:5000/userinfo", {
-          id: user.id,
-        });
-
-        console.log(userinfo);
-        if (userinfo.data.success != "true") {
-          setcheck(false);
-          setFirstName(user.first_name);
-          setLastName(user.last_name);
-        } else {
-          setcheck(true);
-          setFirstName(userinfo.data.user.first_name);
-          setLastName(userinfo.data.user.last_name);
-          setrole(userinfo.data.user.role);
-          setSelectedBranch(userinfo.data.user.branch);
-          setGithubLink(userinfo.data.user.githublink);
-          setPhoneNumber(userinfo.data.user.phonenumber);
-          setSelectedGender(userinfo.data.user.gender);
-          setSelectedYear(userinfo.data.user.year);
-        }
+          try {
+              const token = localStorage.getItem('jwt_token');
+              const userinfo = await axios.post("http://localhost:5000/userinfo", {
+                  id: user.id,
+              }, {
+                  headers: {
+                      'Authorization': `Bearer ${token}` 
+                  }
+              });
+              console.log(userinfo);
+              if (userinfo.data.success != "true") {
+                setcheck(false);
+                setFirstName(user.first_name);
+                setLastName(user.last_name);
+              } else {
+                setcheck(true);
+                setFirstName(userinfo.data.user.first_name);
+                setLastName(userinfo.data.user.last_name);
+                setrole(userinfo.data.user.role);
+                setSelectedBranch(userinfo.data.user.branch);
+                setGithubLink(userinfo.data.user.githublink);
+                setPhoneNumber(userinfo.data.user.phonenumber);
+                setSelectedGender(userinfo.data.user.gender);
+                setSelectedYear(userinfo.data.user.year);
+                localStorage.setItem("jwt_token",userinfo.data.token);
+              }
+          } catch (error) {
+              console.error("Error fetching user info:", error);
+          }
       }
-    };
-
+  };
     getuser();
   }, [user]);
   const navigate = useNavigate();
-  const [agreed, setAgreed] = useState(false);
-  const [toggle, setToggle] = useRecoilState(togglestate);
+  const toggle = useRecoilValue(togglestate);
 
-  // State for form fields
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
@@ -68,10 +60,6 @@ const Profile: React.FC = () => {
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    // Your form submission logic goes here
-
-    // Example: Logging form data
     console.log({
       firstName,
       lastName,
@@ -83,6 +71,7 @@ const Profile: React.FC = () => {
     });
   };
   const createuser = async () => {
+    if(user && typeof user.id === "string"){
     const updateuser = {
       ...user,
       year: selectedYear,
@@ -94,14 +83,7 @@ const Profile: React.FC = () => {
       first_name: firstName,
       last_name: lastName,
     };
-    const keys = Object.keys(updateuser);
-    keys.forEach((key) => {
-      // Output each key
-      console.log(key + typeof updateuser[key]); // Output value corresponding to each key
-    });
     setuser(updateuser);
-    console.log("karan");
-
     console.log(updateuser);
     if (!check && user) {
       const response = await axios.post("http://localhost:5000/user", {
@@ -117,7 +99,10 @@ const Profile: React.FC = () => {
         id: user.id,
       });
       console.log(response.data);
-      if (response.data.success == "true") navigate("/");
+      if (response.data.success == "true"){ 
+        localStorage.setItem("jwt_token",response.data.jwt_token);
+        navigate("/");
+      }
     } else if (check && change && user) {
       const updateduser = {
         first_name: firstName,
@@ -128,17 +113,27 @@ const Profile: React.FC = () => {
         gender: selectedGender,
         phonenumber: phoneNumber,
         role: role,
+        email:user.email,
         id: user.id,
       };
-      const response = await axios.put("http://localhost:5000/updateuser", {
-        updateduser,
-      });
+      const response = await axios.put(
+        "http://localhost:5000/updateuser", 
+        {
+          updateduser,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+          }
+        }
+      );
       console.log(response);
       navigate("/");
       console.log(response);
     } else {
       navigate("/");
     }
+  }
   };
 
   const handleInputChange = (
@@ -269,7 +264,6 @@ const Profile: React.FC = () => {
                 >
                   <option value="0">Role</option>
                   <option value="1">Student</option>
-                  <option value="2">Mentor</option>
                 </select>
               </div>
               <div className="sm:col-span-2">
