@@ -1,18 +1,20 @@
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState} from "recoil";
 import { togglestate } from "../store/toggle";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { userstate } from "../store/user";
+import { userstate } from "../store/userState";
 const Login = () => {
   const navigate = useNavigate();
-  const [toggle, settoggle] = useRecoilState(togglestate);
+  const toggle = useRecoilValue(togglestate);
   const [user, setuser] = useRecoilState(userstate);
+  const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
   const login = useGoogleLogin({
     onSuccess: async ({ code }) => {
       console.log(code);
-      const userinfo = await axios.post("http://localhost:5000/auth/google", {
+      console.log(`${BASE_URL}/auth/google`);
+      const userinfo = await axios.post(`${BASE_URL}/auth/google`, {
         code,
       });
       console.log(userinfo);
@@ -23,13 +25,15 @@ const Login = () => {
           first_name: userinfo.data.user.given_name,
           last_name: userinfo.data.user.family_name,
           image: userinfo.data.user.picture,
+          gender:userinfo.data.user.gender
         });
         console.log(user);
         localStorage.setItem("access_token", userinfo.data.token);
-        localStorage.setItem("refresh-token", userinfo.data.refresh);
+        localStorage.setItem("refresh_token", userinfo.data.refresh);
+        localStorage.setItem("jwt_token",userinfo.data.jwt_token);
         navigate("/profile");
       } else {
-        alert(userinfo.data.error);
+        alert(userinfo.data.message);
       }
     },
     flow: "auth-code",

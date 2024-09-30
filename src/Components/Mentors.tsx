@@ -2,30 +2,22 @@ import Avatar from "../assets/avatar.png";
 import { IoMail } from "react-icons/io5";
 import { FaGithub } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { togglestate } from "../store/toggle";
-import { useEffect, useState } from "react";
-import axios from "axios";
-interface Mentor {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phonenumber: string;
-  githublink: string;
-  image: string;
-}
+
+import { wocstate } from "../store/woc";
+import {Mentor} from "../types/mentor"
+import Loading from "./Loading";
+import { mentorstate } from "../store/mentor";
 const Mentors = () => {
-  const [toggle, settoggle] = useRecoilState(togglestate);
-  const [mentors, setmentors] = useState<Mentor[]>();
-  useEffect(() => {
-    const getmentors = async () => {
-      const resp = await axios.get("http://localhost:5000/allmentors");
-      console.log(resp);
-      setmentors(resp.data);
-    };
-    getmentors();
-  }, []);
+  const toggle = useRecoilValue(togglestate);
+  const mentors_state = useRecoilValueLoadable(mentorstate);
+  const mentors = useRecoilValue(mentorstate)
+  const woc_state = useRecoilValue(wocstate);
+  if(mentors_state.state=="loading" ){
+   return <Loading/>
+  }
+  else if( mentors_state.state==="hasValue"){
   return (
     <div className="border-2 border-black relative w-screen overflow-x-hidden h-screen ">
       <div
@@ -47,6 +39,9 @@ const Mentors = () => {
               agrees to mentor you with your proposed project. A mentor has to
               create the project for it to be considered a valid project.
             </div>
+            {woc_state ?
+            (
+            <>
             {mentors &&
               mentors.length > 0 &&
               mentors.map((x: Mentor) => {
@@ -83,10 +78,17 @@ const Mentors = () => {
                   </div>
                 );
               })}
+              </>
+            ):(
+              <div className="flex justify-center m-5 text-[30px] font-stylish font-bold "> 
+              WOC Has Not Started Yet
+            </div>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
+}
 };
 export default Mentors;

@@ -1,4 +1,4 @@
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { FaCheckCircle } from "react-icons/fa";
 import { togglestate } from "../store/toggle";
 import {
@@ -14,42 +14,45 @@ import {
 import { PiNumberCircleNineFill } from "react-icons/pi";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import { userstate } from "../store/user";
+import { userstate } from "../store/userState";
 import axios from "axios";
-interface timeline {
-  id: string;
-  date: String;
-  event: String[];
-  completed: boolean;
-  logo: any;
-}
+import {timeline} from "../types/timeline"
+
 const Timeline = () => {
   const [status, setstatus] = useState(false);
-  const [toggle, settoggle] = useRecoilState(togglestate);
+  const toggle = useRecoilValue(togglestate);
   const [editmode, setmode] = useState<boolean>(false);
   const [timelines, settimeline] = useState<timeline[]>();
-  const [user, setuser] = useRecoilState(userstate);
+  const user = useRecoilValue(userstate);
+  const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
   const updatetimeline = async (id: string, completed: boolean) => {
-    const resp = await axios.put(
-      `http://localhost:5000/updatetimeline/${id}/${!completed}`,
-    );
-    setstatus(!status);
-    console.log(resp);
+    try {
+      const token = localStorage.getItem("jwt_token");
+      console.log(token)
+      const resp = await axios.put(
+        `${BASE_URL}/updatetimeline/${id}/${!completed}`,{
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setstatus(!status);
+      console.log(resp);
+    } catch (error) {
+      console.error("Error updating timeline:", error);
+    }
   };
   useEffect(() => {
     const getTimeline = async () => {
       try {
-        const resp = await fetch("http://localhost:5000/timeline");
+        const resp = await fetch(`${BASE_URL}/timeline`);
         const response = await resp.json();
-        const data = response.data;
-        const parsedData = data.map((obj: any) => {
-          return {
-            ...obj,
-            events: JSON.parse(obj.events),
-          };
-        });
-
-        settimeline(parsedData);
+        const data = response.timelines;
+      
+        console.log(data);
+        settimeline(data);
       } catch (error) {
         console.error("Error fetching timeline:", error);
       }
