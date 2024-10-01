@@ -84,18 +84,29 @@ const Profile: React.FC = () => {
     };
     setuser(updateuser);
     if (!check && user) {
-      const response = await axios.post(`${BASE_URL}/user`, {
-        first_name: firstName,
-        last_name: lastName,
-        year: selectedYear,
-        email: user.email,
-        branch: selectedBranch,
-        githublink: githubLink,
-        gender: selectedGender,
-        phonenumber: phoneNumber,
-        role: role,
-        id: user.id,
-      });
+      const token = localStorage.getItem('jwt_token')
+      const response = await axios.post(
+        `${BASE_URL}/user`, 
+        {
+          first_name: firstName,
+          last_name: lastName,
+          year: selectedYear,
+          email: user.email,
+          branch: selectedBranch,
+          githublink: githubLink,
+          gender: selectedGender,
+          phonenumber: phoneNumber,
+          role: role,
+          id: user.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+      
+      console.log(response)
       if (response.data.success == "true"){ 
         localStorage.setItem("jwt_token",response.data.jwt_token);
         navigate("/");
