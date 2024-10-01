@@ -13,7 +13,7 @@ const Home = () => {
   
   return (
     <div
-      className={`overflow-x-hidden ${toggle === null ? "" : toggle ? "contract" : "expand"}`}
+      className={`overflow-x-hidden  ${toggle === null ? "" : toggle ? "contract" : "expand"}`}
     >
       <div
         className="flex flex-col justify-center items-center relative overflow-hidden h-[479px] bg-cover"

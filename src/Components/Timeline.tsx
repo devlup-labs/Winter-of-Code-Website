@@ -58,7 +58,7 @@ const Timeline = () => {
       }
     };
     getTimeline();
-  }, [editmode, status]);
+  }, [editmode, status,BASE_URL]);
   const events = [
     { logo: <PiNumberCircleOneFill /> },
     {
@@ -133,7 +133,7 @@ const Timeline = () => {
                 {timelines && timelines.length > 0 ? (
                   timelines.map((x: timeline, index) => {
                     return (
-                      <>
+                      <div key={x.id}>
                         <div className="flex ">
                           {editmode ? (
                             <></>
@@ -175,14 +175,14 @@ const Timeline = () => {
                               ))}
                           </div>
                         </div>
-                        {x.events.map((y) => {
+                        {x.events.map((y,index) => {
                           return (
-                            <li className="mx-11  text-[16px] font-weight-400">
+                            <li key={index} className="mx-11  text-[16px] font-weight-400">
                               {y}
                             </li>
                           );
                         })}
-                      </>
+                      </div>
                     );
                   })
                 ) : (

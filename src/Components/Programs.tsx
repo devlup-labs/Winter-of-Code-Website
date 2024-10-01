@@ -19,7 +19,7 @@ const Programs = () => {
       setprograms(resp.data);
     };
     pastprograms();
-  }, []);
+  }, [BASE_URL]);
 
   const filteredPrograms = programs?.filter((x) => {
     return (
@@ -70,7 +70,7 @@ const Programs = () => {
           filteredPrograms.length > 0 &&
           filteredPrograms.map((x: program) => {
             return (
-              <div className="flex justify-center">
+              <div key={x.title} className="flex justify-center">
                 <ProjectCard
                   year={x.year}
                   mentor={x.mentor}
