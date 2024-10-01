@@ -12,12 +12,9 @@ const Login = () => {
   const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
   const login = useGoogleLogin({
     onSuccess: async ({ code }) => {
-      console.log(code);
-      console.log(`${BASE_URL}/auth/google`);
       const userinfo = await axios.post(`${BASE_URL}/auth/google`, {
         code,
       });
-      console.log(userinfo);
       if (userinfo.data.success) {
         setuser({
           email: userinfo.data.user.email,

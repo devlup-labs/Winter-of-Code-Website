@@ -28,7 +28,6 @@ const Timeline = () => {
   const updatetimeline = async (id: string, completed: boolean) => {
     try {
       const token = localStorage.getItem("jwt_token");
-      console.log(token)
       const resp = await axios.put(
         `${BASE_URL}/updatetimeline/${id}/${!completed}`,{
         },
@@ -50,8 +49,6 @@ const Timeline = () => {
         const resp = await fetch(`${BASE_URL}/timeline`);
         const response = await resp.json();
         const data = response.timelines;
-      
-        console.log(data);
         settimeline(data);
       } catch (error) {
         console.error("Error fetching timeline:", error);

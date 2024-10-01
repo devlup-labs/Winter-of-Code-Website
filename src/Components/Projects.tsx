@@ -125,7 +125,6 @@ const Projects = () => {
     console.log('User details:', user);
     const getProjects = async () => {
       const response = await axios.get(`${BASE_URL}/projects`);
-      console.log(response.data)
       setProjects(response.data);
     };
     getProjects();

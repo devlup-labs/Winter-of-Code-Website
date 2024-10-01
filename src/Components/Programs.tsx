@@ -15,7 +15,6 @@ const Programs = () => {
   useEffect(() => {
     const pastprograms = async () => {
       const resp = await axios.get(`${BASE_URL}/pastprograms`);
-      console.log(resp);
       setprograms(resp.data);
     };
     pastprograms();
