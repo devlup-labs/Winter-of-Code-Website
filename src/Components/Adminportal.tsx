@@ -13,7 +13,7 @@ import { userstate } from '../store/userState';
 import { wocstate } from '../store/woc';
 import { Button } from '@mui/material';
 import axios from 'axios';
-import Error from './Error';
+import NotFound from './NotFound';
 
 interface CurrentProgramProps {
   name: string;
@@ -148,7 +148,7 @@ const AdminPortal: React.FC = () => {
     </div>
     ):(
       <div className={` overflow-x-hidden h-screen w-screen ${toggle === null ? "" : toggle ? "contract" : "expand"}`}>
-       <Error/>
+       <NotFound/>
       </div>
     )
   );

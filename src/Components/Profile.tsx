@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { userstate } from "../store/userState";
-
+const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
 const Profile: React.FC = () => {
   const [user, setuser] = useRecoilState(userstate);
   const [change, setchange] = useState(false);
@@ -15,14 +15,13 @@ const Profile: React.FC = () => {
       if (user) {
           try {
               const token = localStorage.getItem('jwt_token');
-              const userinfo = await axios.post("http://localhost:5000/userinfo", {
+              const userinfo = await axios.post(`${BASE_URL}/userinfo`, {
                   id: user.id,
               }, {
                   headers: {
                       'Authorization': `Bearer ${token}` 
                   }
               });
-              console.log(userinfo);
               if (userinfo.data.success != "true") {
                 setcheck(false);
                 setFirstName(user.first_name);
@@ -84,9 +83,8 @@ const Profile: React.FC = () => {
       last_name: lastName,
     };
     setuser(updateuser);
-    console.log(updateuser);
     if (!check && user) {
-      const response = await axios.post("http://localhost:5000/user", {
+      const response = await axios.post(`${BASE_URL}/user`, {
         first_name: firstName,
         last_name: lastName,
         year: selectedYear,
@@ -98,7 +96,6 @@ const Profile: React.FC = () => {
         role: role,
         id: user.id,
       });
-      console.log(response.data);
       if (response.data.success == "true"){ 
         localStorage.setItem("jwt_token",response.data.jwt_token);
         navigate("/");
@@ -117,7 +114,7 @@ const Profile: React.FC = () => {
         id: user.id,
       };
       const response = await axios.put(
-        "http://localhost:5000/updateuser", 
+        `${BASE_URL}/updateuser`, 
         {
           updateduser,
         },
@@ -129,7 +126,6 @@ const Profile: React.FC = () => {
       );
       console.log(response);
       navigate("/");
-      console.log(response);
     } else {
       navigate("/");
     }
