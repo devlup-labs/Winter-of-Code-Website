@@ -46,7 +46,7 @@ const Mentors = () => {
               mentors.length > 0 &&
               mentors.map((x: Mentor) => {
                 return (
-                  <div className="m-5 rounded-md shadow-md hover:rounded-2xl shadow-mentor duration-500 hover:scale-105 flex justify-between ">
+                  <div key={x.id} className="m-5 rounded-md shadow-md hover:rounded-2xl shadow-mentor duration-500 hover:scale-105 flex justify-between ">
                     <div className="md2:mx-10 text-center mx-5 my-8 font-weight-400 text-[24px] fontstylish">
                       {x.first_name} {x.last_name}
                       <div className="flex  justify-center">

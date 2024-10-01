@@ -48,7 +48,7 @@ const ProjectForm=()=>{
         setmentors(resp.data);
       };
       getmentors();
-    }, []);
+    }, [BASE_URL]);
 return(
     <div className={`flex justify-center w-screen h-screen bg-slate-100  ${toggle === null ? "" : toggle ? "contract" : "expand"}`}>
     <div className="flex  flex-col item-center justify center  mt-[130px] bg-white w-[400px] h-[500px] m-5 p-5 ">

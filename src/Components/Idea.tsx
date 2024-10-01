@@ -55,7 +55,7 @@ const Idea = () => {
   }
 };
     getideas();
-  }, []);
+  }, [BASE_URL]);
     const toggle = useRecoilValue(togglestate);
     console.log(user);
     return (

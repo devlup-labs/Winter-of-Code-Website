@@ -41,7 +41,7 @@ const MyProjects = () => {
       }
   };
     getuserprojects();
-  });
+  },[user,BASE_URL]);
   return (
     <div className=" relative w-screen overflow-x-hidden h-screen ">
       <div
@@ -60,9 +60,9 @@ const MyProjects = () => {
             <div>
               {projects &&
                 projects.length > 0 &&
-                projects.map((x: project) => {
+                projects.map((x: project,index) => {
                   return (
-                    <div className="mx-8">
+                    <div key={index} className="mx-8">
                       <div className="fontstylish">
                         <div className="flex mx-2 mb-2 text-[21px] font-bold">
                           <h2>{x.title}</h2>
