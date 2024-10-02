@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/20/solid';
 import { userstate } from '../store/userState';
 import { wocstate } from '../store/woc';
+import { resultstate } from '../store/results';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import NotFound from './NotFound';
@@ -68,6 +69,7 @@ const AdminPortal: React.FC = () => {
   const toggle = useRecoilValue(togglestate);
   const user = useRecoilValue(userstate);
   const [woc,setwoc]= useRecoilState(wocstate);
+  const [results,setresults]=useRecoilState(resultstate)
   const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
   const changewoc = async () => {
     try {
@@ -79,6 +81,20 @@ const AdminPortal: React.FC = () => {
         }
       });
       setwoc(response.data);
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+  const changeresults = async () => {
+    try {
+      const jwtToken = localStorage.getItem('jwt_token');
+      const response = await axios.put(`${BASE_URL}/changeresult`, {
+      }, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        }
+      });
+      setresults(response.data);
     } catch (error) {
       console.error("Error updating status:", error);
     }
@@ -125,6 +141,12 @@ const AdminPortal: React.FC = () => {
             {woc ?(<Button onClick={changewoc}  variant="contained">end</Button>):(<Button onClick={changewoc}  variant="contained">start</Button>)}
             </div>
             <div className='font-bold mx-2 pt-2'>WOC</div>
+            </div>
+            <div className='flex justify-center m-5'>
+            <div>
+            {results ?(<Button onClick={changeresults}  variant="contained">Hide</Button>):(<Button onClick={changeresults}  variant="contained">Display</Button>)}
+            </div>
+            <div className='font-bold mx-2 pt-2'>Results</div>
             </div>
           <div className="flex justify-center">
             <div className="lg:flex lg:items-center lg:justify-between mx-4">
