@@ -17,6 +17,7 @@ import { userstate } from "../store/userState";
 import { wocstate } from "../store/woc";
 import project from "../types/project";
 import { Link } from "react-router-dom";
+import { resultstate } from "../store/results";
 
 const style = {
   position: "fixed",
@@ -39,6 +40,7 @@ const Projects = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [id, setId] = useState("");
+  const results=useRecoilValue(resultstate)
   const [mentor, setMentor] = useState("");
   const [drive, setDrive] = useState("");
   const [title, setTitle] = useState("");
@@ -70,6 +72,7 @@ const Projects = () => {
                 proposal: {
                     title,
                     mentor,
+                    email: `${user.email}`,
                     name: `${user.first_name} ${user.last_name}`,
                     drive,
                 },
@@ -155,15 +158,31 @@ const Projects = () => {
                         </div>
                         <div className="mx-2 text-[14px] mb-4">{x.tag}</div>
                         <div className="mx-2 scroll-m-12 md4">
+                        <div className='flex justify-between'>
+                          <div>
                           <h5 className="font-semibold py-1">Mentors</h5>
                           <ul className="py-1 mx-2">
                             <li>{x.mentor}</li>
                           </ul>
+                          </div>
+                          <div>
+                          {results?(
+                            <>
+                          <h5 className="font-semibold py-1">Contributors</h5>
+                          <ul className="py-1 mx-2">
+                            {x.mentee.map((mentee, index) => (
+                              <li key={index}>{mentee}</li>
+                            ))}
+                          </ul>
+                          </>
+                          ):<></>}
+                          </div>
+                          </div>
                           <h5 className="font-semibold py-1 pb-5">Technologies</h5>
                           <span className="rounded-full px-4 py-2 bg-gray-300">{x.technology}</span>
                           <h5 className="font-semibold py-1 pt-5">Description</h5>
                           <div className="my-5">{x.description}</div>
-                          {user && user.role === "1" && (
+                          {!results && user && user.role === "1" && (
                             <>
                               {user.projects?.some((project: project) => project.id === x.id) ? (
                                 <Button color="error" variant="contained" onClick={() => deleteProposal(x.title)}>

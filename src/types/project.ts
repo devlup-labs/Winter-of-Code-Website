@@ -5,4 +5,5 @@ export default  interface project {
     description: string;
     mentor: string;
     technology: string;
+    mentee:string[]
   }

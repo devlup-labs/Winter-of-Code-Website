@@ -8,6 +8,7 @@ import { togglestate } from "../store/toggle";
 import woc from "../assets/WOC.png";
 import dev from "../assets/devlogo.png";
 import org from "../assets/orglogo.png";
+import { Link } from "react-router-dom";
 const Home = () => {
   const toggle = useRecoilValue(togglestate);
   
@@ -111,23 +112,25 @@ const Home = () => {
         Interested to know more?
       </div>
       <div className="flex justify-center">
-        <a
-          href="https://woc.devluplabs.tech/how-it-works"
+        <Link
+          to="/how-it-works"
           className="flex justify-center fontstylish py-2 hover:bg-slate-200 rounded-sm text-[16px] font-weight-400 text-slate-800 border-black border-[1px] m-2  w-[600px] "
         >
           SEE PROGRAM TIMELINE
-        </a>
+        </Link>
       </div>
       <div className="flex justify-center ">
         <a
-          href=""
+          href="/StudentManual.pdf" 
           className="flex justify-center fontstylish py-2 hover:bg-slate-200 rounded-sm text-slate-800 border-black border-[1px]  text-[16px] m-2 w-[600px]"
         >
           STUDENT MANUAL
         </a>
       </div>
       <div className="flex justify-center">
-        <a className="flex justify-center hover:bg-slate-200 fontstylish py-2 rounded-sm text-slate-800 text-[16px] border-black border-[1px] m-2 w-[600px] ">
+        <a 
+        href="/MentorManual.pdf"  
+        className="flex justify-center hover:bg-slate-200 fontstylish py-2 rounded-sm text-slate-800 text-[16px] border-black border-[1px] m-2 w-[600px] ">
           MENTOR MANUAL
         </a>
       </div>
@@ -136,12 +139,12 @@ const Home = () => {
       </div>
 
       <div className="flex justify-center">
-        <a
-          href="https://woc.devluplabs.tech/how-it-works"
+        <Link
+          to="/login"
           className="flex justify-center py-2  text-slate-800 rounded-sm hover:bg-slate-200  text-[16px] border-black border-[1px] m-2 w-[600px] fontstylish "
         >
           REGISTER
-        </a>
+        </Link>
       </div>
       <div className="text-[45px] font-weight-400 flex justify-center mt-20 mb-5">
         Contact Us

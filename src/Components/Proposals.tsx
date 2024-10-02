@@ -13,14 +13,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from "@mui/material";
+import { Proposal } from "../types/proposal";
 
-interface Proposal {
-  id: string;
-  drive: string;
-  name: string;
-  mentor: string;
-  title: string;
-}
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,19 +30,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
   },
 }));
 
-function CustomizedTables({ proposals }: { proposals: Proposal[] }) {
+function CustomizedTables({ proposals, updateproposal }: { proposals: Proposal[], updateproposal: (id: string, completed: boolean) => void }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell align="right">Status</StyledTableCell>
             <StyledTableCell align="right">Drive</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -58,7 +52,14 @@ function CustomizedTables({ proposals }: { proposals: Proposal[] }) {
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              {/* Make the drive link clickable */}
+              <StyledTableCell align="right">
+              {row.status ? (
+                <Button variant="contained" onClick={() => updateproposal(row.id, row.status)}>Accepted</Button>
+              ) : (
+                <Button variant="contained" onClick={() => updateproposal(row.id, row.status)}>Pending</Button>
+              )}
+            </StyledTableCell>
+
               <StyledTableCell align="right">
                 <a href={row.drive} target="_blank" rel="noopener noreferrer">
                   <Button variant="contained" color="primary">
@@ -80,7 +81,25 @@ const ProposalPage = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const user = useRecoilValue(userstate);
   const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
-
+  const [status, setstatus] = useState(false);
+  const updateproposal = async (id: string, completed: boolean) => {
+    try {
+      const token = localStorage.getItem("jwt_token");
+      const resp = await axios.put(
+        `${BASE_URL}/updateproposal/${id}/${!completed}/${user?.first_name} ${user?.last_name}`,{
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setstatus(!status);
+      console.log(resp);
+    } catch (error) {
+      console.error("Error updating timeline:", error);
+    }
+  };
   useEffect(() => {
     const getProposals = async () => {
       if (user) {
@@ -105,7 +124,7 @@ const ProposalPage = () => {
       }
     };
     getProposals();
-  }, [user, BASE_URL, navigate]);
+  }, [user, BASE_URL,status, navigate]);
 
   return (
     <div className="border-2 border-black relative w-screen overflow-x-hidden h-screen ">
@@ -127,7 +146,7 @@ const ProposalPage = () => {
               talented students.
             </div>
             <div className="m-5">
-            <CustomizedTables proposals={proposals} />
+            <CustomizedTables proposals={proposals} updateproposal={updateproposal} />
             </div>
           </div>
         </div>

@@ -71,6 +71,7 @@ const Idea = () => {
             <div className="m-10 flex justify-center h-[50px]">
               <TextField
                 value={title}
+                required
                 onChange={(e) => {
                   settitle(e.target.value);
                 }}
