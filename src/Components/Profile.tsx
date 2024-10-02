@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { userstate } from "../store/userState";
+import { TextField } from "@mui/material";
 const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
 const Profile: React.FC = () => {
   const [user, setuser] = useRecoilState(userstate);
@@ -55,7 +56,7 @@ const Profile: React.FC = () => {
   const [selectedBranch, setSelectedBranch] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [role, setrole] = useState("");
+  const [role, setrole] = useState("1");
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,6 +71,16 @@ const Profile: React.FC = () => {
     });
   };
   const createuser = async () => {
+    try {
+      await axios.post(`${BASE_URL}/check-duplicate-username`, { first_name: firstName, last_name: lastName });
+  } catch (error) {
+      if (axios.isAxiosError(error)) {
+          alert(error.response?.data.detail || "An error occurred.");
+      } else {
+          alert("An unexpected error occurred.");
+      }
+      return;
+    }
     if(user && typeof user.id === "string"){
     const updateuser = {
       ...user,
@@ -144,12 +155,10 @@ const Profile: React.FC = () => {
   };
 
   const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    event: ChangeEvent<HTMLInputElement |  HTMLTextAreaElement>,
   ) => {
     setchange(true);
     const { name, value } = event.target;
-
-    // Update the corresponding state based on the input name
     switch (name) {
       case "first-name":
         setFirstName(value);
@@ -225,13 +234,15 @@ const Profile: React.FC = () => {
                   First name
                 </label>
                 <div className="mt-2.5">
-                  <input
+                  <TextField
                     type="text"
                     name="first-name"
                     id="first-name"
                     autoComplete="given-name"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={firstName}
+                    required
+                    error={!firstName}
+                    helperText={!firstName?"firstname cannot be empty":''}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -244,12 +255,14 @@ const Profile: React.FC = () => {
                   Last name
                 </label>
                 <div className="mt-2.5">
-                  <input
+                  <TextField
                     type="text"
                     name="last-name"
                     id="last-name"
+                    required
+                    error={!lastName}
+                    helperText={!lastName?"Lastname cannot be empty":''}
                     autoComplete="family-name"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={lastName}
                     onChange={handleInputChange}
                   />
@@ -363,14 +376,16 @@ const Profile: React.FC = () => {
                   Github Link
                 </label>
                 <div className="mt-2.5">
-                  <input
+                  <TextField
                     type="github"
                     name="github"
                     id="github"
                     autoComplete="github"
                     value={githubLink}
+                    required
+                    helperText={!githubLink?"Githublink cannot be empty":''}
+                    error={!githubLink}
                     onChange={handleInputChange}
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -382,26 +397,17 @@ const Profile: React.FC = () => {
                   Phone number
                 </label>
                 <div className="relative mt-2.5">
-                  <div className="absolute inset-y-0 left-0 flex items-center">
-                    <label htmlFor="country" className="sr-only">
-                      Country
-                    </label>
-                    <select
-                      id="country"
-                      name="country"
-                      className="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-3  text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                    >
-                      <option>+91</option>
-                    </select>
-                  </div>
-                  <input
+                  <TextField
                     type="tel"
                     name="phone-number"
                     id="phone-number"
                     autoComplete="tel"
                     value={phoneNumber}
+                    required
+                    error={!phoneNumber || !/^[0-9]{10}$/.test(phoneNumber)}  
+                    helperText={!phoneNumber || !/^[0-9]{10}$/.test(phoneNumber) ? "Phone number must be exactly 10 digits" : ""}
                     onChange={handleInputChange}
-                    className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        
                   />
                 </div>
               </div>
@@ -409,21 +415,40 @@ const Profile: React.FC = () => {
 
             <div className="mt-10">
               {check ? (
+                <div>
                 <button
                   onClick={createuser}
+                  disabled={!firstName || !lastName || !githubLink || !/^[0-9]{10}$/.test(phoneNumber)}
                   type="submit"
-                  className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className={`block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm 
+                    ${!firstName || !lastName || !githubLink || !/^[0-9]{10}$/.test(phoneNumber) ? 
+                    "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"} 
+                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                 >
                   Save
                 </button>
+                {(!firstName || !lastName || !githubLink || (phoneNumber && !/^[0-9]{10}$/.test(phoneNumber))) && (
+                  <p className="text-red-500 text-sm">Please fill in all required fields.</p>
+                )}
+              </div>
               ) : (
+                <div>
+
                 <button
                   onClick={createuser}
+                  disabled={!firstName || !lastName || !githubLink || !/^[0-9]{10}$/.test(phoneNumber)}
                   type="submit"
-                  className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className={`block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm 
+                    ${!firstName || !lastName || !githubLink || !/^[0-9]{10}$/.test(phoneNumber) ? 
+                    "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"} 
+                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                 >
                   Create Profile
                 </button>
+                {(!firstName || !lastName || !githubLink || (phoneNumber && !/^[0-9]{10}$/.test(phoneNumber))) && (
+                  <p className="text-red-500 text-sm">Please fill in all required fields.</p>
+                )}
+              </div>
               )}
             </div>
           </form>
