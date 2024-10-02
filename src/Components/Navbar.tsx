@@ -67,7 +67,6 @@ const Navbar: React.FC = () => {
   const setToggle = useSetRecoilState<boolean | null>(togglestate);
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
-  console.log(user)
   const fetchMentorRequests = async () => {
     const token = localStorage.getItem("jwt_token")
     try {

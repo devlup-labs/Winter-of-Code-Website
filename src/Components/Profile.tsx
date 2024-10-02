@@ -71,16 +71,7 @@ const Profile: React.FC = () => {
     });
   };
   const createuser = async () => {
-    try {
-      await axios.post(`${BASE_URL}/check-duplicate-username`, { first_name: firstName, last_name: lastName });
-  } catch (error) {
-      if (axios.isAxiosError(error)) {
-          alert(error.response?.data.detail || "An error occurred.");
-      } else {
-          alert("An unexpected error occurred.");
-      }
-      return;
-    }
+
     if(user && typeof user.id === "string"){
     const updateuser = {
       ...user,
@@ -95,6 +86,16 @@ const Profile: React.FC = () => {
     };
     setuser(updateuser);
     if (!check && user) {
+      try {
+        await axios.post(`${BASE_URL}/check-duplicate-username`, { first_name: firstName, last_name: lastName });
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            alert(error.response?.data.detail || "An error occurred.");
+        } else {
+            alert("An unexpected error occurred.");
+        }
+        return;
+      }
       const token = localStorage.getItem('jwt_token')
       const response = await axios.post(
         `${BASE_URL}/user`, 
