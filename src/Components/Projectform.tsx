@@ -35,6 +35,12 @@ const ProjectForm=()=>{
         });
         if (resp.data.success) {
           alert("Project added successfully");
+          setmentor("");
+          setdescription("")
+          settag("")
+          setname("")
+          setyear("")
+          settechnology("")
         } else {
           alert("Failed to add Project");
         }
@@ -55,18 +61,19 @@ return(
     <div className={`flex justify-center w-screen h-screen bg-slate-100  ${toggle === null ? "" : toggle ? "contract" : "expand"}`}>
     <div className="flex  flex-col item-center justify center  mt-[130px] bg-white w-[400px] h-screen m-10 p-5 ">
           <div className="flex justify-center text-blue-600 text-[30px]">Add Project</div>
-          <TextField className="m-[5px]" id="outlined-basic" onChange={(e)=>setname(e.target.value)}   label="Name" variant="outlined" />
-          <TextField id="outlined-basic" onChange={(e)=>settag(e.target.value)}   margin="normal"  label="Tag" variant="outlined" />
+          <TextField className="m-[5px]" id="outlined-basic" onChange={(e)=>setname(e.target.value)}   value={name}   label="Name" variant="outlined" />
+          <TextField id="outlined-basic" onChange={(e)=>settag(e.target.value)}   value={tag}    margin="normal"  label="Tag" variant="outlined" />
           <TextField
           id="outlined-multiline-static"
           label="Description"
           multiline
           onChange={(e)=>setdescription(e.target.value)} 
           rows={4}
+          value={description} 
           defaultValue=""
         />
          
-          <TextField id="outlined-basic" onChange={(e)=>settechnology(e.target.value)}   margin="normal"  label="Technologies" variant="outlined" />
+          <TextField id="outlined-basic" onChange={(e)=>settechnology(e.target.value)}   value={technology}    margin="normal"  label="Technologies" variant="outlined" />
           <select
   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
   value={mentor}
@@ -88,7 +95,7 @@ return(
     );
   })}
 </select>
-<TextField id="outlined-basic" onChange={(e)=>setyear(e.target.value)}   margin="normal"  label="Year" variant="outlined" />
+<TextField id="outlined-basic" onChange={(e)=>setyear(e.target.value)}   value={year}    margin="normal"  label="Year" variant="outlined" />
           <button className="my-3 bg-blue-500 rounded-md text-white hover:bg-blue-600 p-2 " onClick={addproject}>Submit</button>
 
     </div>

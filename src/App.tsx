@@ -7,7 +7,6 @@ import Projects from "./Components/Projects";
 import Profile from "./Components/Profile";
 import Programs from "./Components/Programs";
 import Login from "./Components/Login";
-import Idea from "./Components/Idea.tsx";
 import Myprojects from "./Components/Myprojects.tsx";
 import Proposal from "./Components/Proposals.tsx";
 import AdminPortal from "./Components/Adminportal.tsx";
@@ -42,7 +41,6 @@ const App = () => {
             <Route path="/mentors" element={<Mentors />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/help" element={<Help />} />
-            <Route path="/ideas" element={<Idea />} />
             <Route path="/how-it-works" element={<Timeline />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<AdminPortal />} />
